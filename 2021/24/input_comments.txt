@@ -1,0 +1,290 @@
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 7
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 11
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 15
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -16
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -11
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -8
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -1
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 9
+mul y x
+add z y
+
+----- x da igual
+----- y da igual
+----- w da igual
+
+inp w
+mul x 0
+add x z -> x = (z mod 26) - 4
+mod x 26
+div z 26 -> z = z // 26
+add x -4
+eql x w
+eql x 0 -> not x
+# y = 0
+# z = z * (25 * x + 1) + (w +4) * x
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+# y = 0
+# z = z + (w +4) * x
+mul y 0
+add y w
+add y 4
+mul y x
+add z y
+
+----- x da igual
+----- y da igual
+----- w -> inp
+----- w = z - 14 -> z = [15, 16, 17, 18, 19, 20, 21, 22, 23]
+----- si w = z - 14 -> 27 * z + (w + 13) == 0 -> 27 * z + z - 14 + 13 == 0 ->
+------      27 * z + z - 1 == 0 --> 28 z = 1 -> nada
+inp w
+# x = 0
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -14
+eql x w
+# x = (z + 26) mod 26 - 14 = z - 14
+# x = 1 si w = z - 14. Si no es 0
+# z = z // 26
+# z = z // 26  * (25 * x + 1) + (y + w + 13) * x
+eql x 0 # Invertimos el valor de x
+# y = 0
+mul y 0
+add y 25
+mul y x
+add y 1
+# z = z * (25 * x + 1)
+# z = z * (25 * x + 1) + (w + 13) * x
+mul z y
+# y = 0
+mul y 0
+add y w
+add y 13
+mul y x
+# z = z + (w + 13) * x
+# z = z + y
+add z y
