@@ -3,7 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
+	"strconv"
 )
 
 var empty = struct{}{}
@@ -121,4 +123,71 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func dijkstra(board Board, start, end Coord) int {
+	getNeighbours := func(coord Coord) map[Coord]int {
+		ret := make(map[Coord]int)
+		var c Coord
+
+		// left
+		c = Coord{X: coord.X - 1, Y: coord.Y}
+		ret[c], _ = strconv.Atoi(string(board.elements[c]))
+
+		// right
+		c = Coord{X: coord.X + 1, Y: coord.Y}
+		ret[c], _ = strconv.Atoi(string(board.elements[c]))
+
+		// up
+		c = Coord{X: coord.X, Y: coord.Y - 1}
+		ret[c], _ = strconv.Atoi(string(board.elements[c]))
+
+		// down
+		c = Coord{X: coord.X, Y: coord.Y + 1}
+		ret[c], _ = strconv.Atoi(string(board.elements[c]))
+
+		return ret
+	}
+
+	getNextNode := func(unvisitedSet map[Coord]int) Coord {
+		min := math.MaxInt32
+		var ret Coord
+		for coord, v := range unvisitedSet {
+			if v < min {
+				min = v
+				ret = coord
+			}
+		}
+		return ret
+	}
+
+	unvisitedSet := make(map[Coord]int)
+	visitedSet := make(map[Coord]int)
+	for j := 0; j < board.maxY; j++ {
+		for i := 0; i < board.maxX; i++ {
+			unvisitedSet[Coord{X: i, Y: j}] = math.MaxInt32
+		}
+	}
+	unvisitedSet[start] = 0
+	currentNode := start
+	for {
+		currentNodeDistance := unvisitedSet[currentNode]
+		possibleNeighbourgs := getNeighbours(currentNode)
+		for node, distance := range possibleNeighbourgs {
+			if _, ok := visitedSet[node]; ok {
+				continue
+			}
+			if unvisitedSet[node] > currentNodeDistance+distance {
+				unvisitedSet[node] = currentNodeDistance + distance
+			}
+		}
+		delete(unvisitedSet, currentNode)
+		visitedSet[currentNode] = currentNodeDistance
+		if _, ok := visitedSet[end]; ok {
+			break
+		}
+		nextNode := getNextNode(unvisitedSet)
+		currentNode = nextNode
+	}
+	return visitedSet[end]
 }
