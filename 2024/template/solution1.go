@@ -26,10 +26,12 @@ func main() {
 
 	fileScanner := bufio.NewScanner(readFile)
 	fileScanner.Split(bufio.ScanLines)
+	re := regexp.MustCompile(`[^:]+: X.(\d+), Y.(\d+)`)
 
 	for fileScanner.Scan() {
 		buff := fileScanner.Text()
 		fmt.Println(buff)
+		fmt.Println(re.FindStringSubmatch(buff))
 	}
 }
 
